@@ -165,28 +165,28 @@ namespace YoutubeStudent.Controllers
             }
         }
 
-        //[Route("Edit")]
-        //[HttpPost] //PUT
-        //public ActionResult Edit(Student st)
-        //{
-        //    try
-        //    {
-        //        connString = new SqlConnection(this.Configuration.GetConnectionString("DefaultConnection"));
-        //        cmd = new SqlCommand("update students set StudentName='" + st.StudentName + "', age= " + st.age + ", [Address]='" + st.Address + "' where Id=" + st.Id + "", connString);
-        //        connString.Open();
-        //        int x = cmd.ExecuteNonQuery();
-        //        if (x > 0)
-        //        {
-        //            return Ok(new { Message = "Record Updated" });
-        //        }
-        //        return BadRequest(new { Message = "Record Not found!" });
-        //    }
-        //    catch (Exception ef)
-        //    {
-        //        return BadRequest(ef.Message);
-        //    }
-        //    finally { connString.Close(); }
-        //}
+        [Route("Edit")]
+        [HttpPut] //PUT
+        public ActionResult Edit(Student st)
+        {
+            try
+            {
+                connString = new SqlConnection(this.Configuration.GetConnectionString("DefaultConnection"));
+                cmd = new SqlCommand("update students set StudentName='" + st.StudentName + "', age= " + st.age + ", [Address]='" + st.Address + "' where Id=" + st.Id + "", connString);
+                connString.Open();
+                int x = cmd.ExecuteNonQuery();
+                if (x > 0)
+                {
+                    return Ok(new { Message = "Record Updated" });
+                }
+                return BadRequest(new { Message = "Record Not found!" });
+            }
+            catch (Exception ef)
+            {
+                return BadRequest(ef.Message);
+            }
+            finally { connString.Close(); }
+        }
 
     }
 }
