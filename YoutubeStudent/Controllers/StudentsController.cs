@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using System.Data.SqlClient;
 using YoutubeStudent.Models;
@@ -188,5 +189,27 @@ namespace YoutubeStudent.Controllers
             finally { connString.Close(); }
         }
 
+        [Route("Patch")]
+        [HttpPatch] //PATCH
+        public ActionResult Patch(int id, [FromBody] JsonPatchDocument<Student> patchDoc)
+        {
+            try
+            {
+                connString = new SqlConnection(this.Configuration.GetConnectionString("DefaultConnection"));
+                cmd = new SqlCommand("update students set " + patchDoc.Operations[0].path +"='" + patchDoc.Operations[0].value + "' where Id=" + id + "", connString);
+                connString.Open();
+                int x = cmd.ExecuteNonQuery();
+                if (x > 0)
+                {
+                    return Ok(new { Message = "Record Updated" });
+                }
+                return BadRequest(new { Message = "Record Not found!" });
+            }
+            catch (Exception ef)
+            {
+                return BadRequest(ef.Message);
+            }
+            finally { connString.Close(); }
+        }
     }
 }
