@@ -211,5 +211,29 @@ namespace YoutubeStudent.Controllers
             }
             finally { connString.Close(); }
         }
+
+        [Route("Delete/{id}")]
+        [HttpDelete] //DELETE
+        public ActionResult Delete(int id)
+        {
+            try
+            {
+                connString = new SqlConnection(this.Configuration.GetConnectionString("DefaultConnection"));
+                cmd = new SqlCommand("delete from Students where Id=" + id + "", connString);
+                connString.Open();
+                int x = cmd.ExecuteNonQuery();
+                if (x > 0)
+                {
+                    return Ok(new { Message = "Record Deleted!" });
+                }
+                return BadRequest(new { Message = "Record Not found!" });
+            }
+            catch (Exception ef)
+            {
+                return BadRequest(ef.Message);
+            }
+            finally { connString.Close(); }
+        }
+
     }
 }
