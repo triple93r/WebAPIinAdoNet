@@ -149,12 +149,12 @@ namespace YoutubeStudent.Controllers
 
         [Route("Create")] //POST
         [HttpPost]
-        public ActionResult Create(Student st)
+        public ActionResult Create(string StudentName, int age, string Address)
         {
             try
             {
                 connString = new SqlConnection(this.Configuration.GetConnectionString("DefaultConnection"));
-                cmd = new SqlCommand("insert into Students(StudentName,age,[Address]) values('" + st.StudentName + "'," + st.age + ",'" + st.Address + "')", connString);
+                cmd = new SqlCommand("insert into Students(StudentName,age,[Address]) values('" + StudentName + "'," + age + ",'" + Address + "')", connString);
                 connString.Open();
                 cmd.ExecuteNonQuery();
                 connString.Close();
@@ -235,5 +235,50 @@ namespace YoutubeStudent.Controllers
             finally { connString.Close(); }
         }
 
+
+        [Route("CreateSemester")] //POST
+        [HttpPost]
+        public ActionResult CreateSemester(StudentSemester st)
+        {
+            try
+            {
+                connString = new SqlConnection(this.Configuration.GetConnectionString("DefaultConnection"));
+                cmd = new SqlCommand("insert into StudentSemester( Studid, Subject1, Mark1, Subject2, Mark2, TotalMark) values(" + st.Studid + " , '" + st.Subject1 + "'," + st.Mark1 + ",'" + st.Subject2 + "'," + st.Mark2 + "," + st.TotalMark + ")", connString);
+                connString.Open();
+                cmd.ExecuteNonQuery();
+                connString.Close();
+                return Ok(new { Message = "Record Added!" });
+            }
+            catch (Exception ef)
+            {
+                return BadRequest(ef.Message);
+            }
+        }
+
+        [Route("FindSemesterById/{id}")] //GET
+        [HttpGet]
+        public JsonResult FindSemesterById(int id)
+        {
+            connString = new SqlConnection(this.Configuration.GetConnectionString("DefaultConnection"));
+            dtb = new DataTable();
+            cmd = new SqlCommand("select * from StudentSemester where id=" + id, connString);
+            try
+            {
+                connString.Open();
+                adap = new SqlDataAdapter(cmd);
+                adap.Fill(dtb);
+                if (dtb.Rows.Count > 0)
+                {
+                    return Json(dtb);
+                }
+                else
+                    return Json("Not Found!");
+            }
+            catch (Exception ef)
+            {
+                return Json(StatusCodes.Status500InternalServerError, ef.Message);
+            }
+            finally { connString.Close(); }
+        }
     }
 }
