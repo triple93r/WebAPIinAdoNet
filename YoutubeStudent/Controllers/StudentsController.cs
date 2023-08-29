@@ -168,12 +168,12 @@ namespace YoutubeStudent.Controllers
 
         [Route("Edit")]
         [HttpPut] //PUT
-        public ActionResult Edit(Student st)
+        public ActionResult Edit(int Id, string StudentName, int age, string Address)
         {
             try
             {
                 connString = new SqlConnection(this.Configuration.GetConnectionString("DefaultConnection"));
-                cmd = new SqlCommand("update students set StudentName='" + st.StudentName + "', age= " + st.age + ", [Address]='" + st.Address + "' where Id=" + st.Id + "", connString);
+                cmd = new SqlCommand("update students set StudentName='" + StudentName + "', age= " + age + ", [Address]='" + Address + "' where Id=" + Id + "", connString);
                 connString.Open();
                 int x = cmd.ExecuteNonQuery();
                 if (x > 0)
