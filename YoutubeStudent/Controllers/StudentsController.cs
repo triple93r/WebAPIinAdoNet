@@ -255,13 +255,13 @@ namespace YoutubeStudent.Controllers
             }
         }
 
-        [Route("FindSemesterById/{id}")] //GET
+        [Route("FindSemesterByStudId/{id}")] //GET
         [HttpGet]
-        public JsonResult FindSemesterById(int id)
+        public JsonResult FindSemesterByStudId(int id)
         {
             connString = new SqlConnection(this.Configuration.GetConnectionString("DefaultConnection"));
             dtb = new DataTable();
-            cmd = new SqlCommand("select * from StudentSemester where id=" + id, connString);
+            cmd = new SqlCommand("select * from StudentSemester where Studid=" + id, connString);
             try
             {
                 connString.Open();
