@@ -8,6 +8,7 @@ namespace YoutubeStudent.Models
         public int Id { get; set; }
         [Required]
         public int Studid { get; set; }
+        public int SemesterNum { get; set; }
         public string Subject1 { get; set; } = String.Empty;
         public int Mark1 { get; set; }
         public string Subject2 { get; set; } = String.Empty;

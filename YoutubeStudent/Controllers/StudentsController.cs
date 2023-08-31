@@ -238,12 +238,12 @@ namespace YoutubeStudent.Controllers
 
         [Route("CreateSemester")] //POST
         [HttpPost]
-        public ActionResult CreateSemester(StudentSemester st)
+        public ActionResult CreateSemester(int Studid, int SemesterNum, string Subject1, int Mark1, string Subject2, int Mark2, int TotalMark)
         {
             try
             {
                 connString = new SqlConnection(this.Configuration.GetConnectionString("DefaultConnection"));
-                cmd = new SqlCommand("insert into StudentSemester( Studid, Subject1, Mark1, Subject2, Mark2, TotalMark) values(" + st.Studid + " , '" + st.Subject1 + "'," + st.Mark1 + ",'" + st.Subject2 + "'," + st.Mark2 + "," + st.TotalMark + ")", connString);
+                cmd = new SqlCommand("insert into StudentSemester( Studid, SemesterNum, Subject1, Mark1, Subject2, Mark2, TotalMark) values(" + Studid + ", "+ SemesterNum + " , '" + Subject1 + "'," + Mark1 + ",'" + Subject2 + "'," + Mark2 + "," + TotalMark + ")", connString);
                 connString.Open();
                 cmd.ExecuteNonQuery();
                 connString.Close();
